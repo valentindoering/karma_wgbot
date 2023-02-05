@@ -12,6 +12,9 @@ class DatabaseElement():
         tmp_dict.pop("_observer_callbacks")
         return tmp_dict
     
+    def __repr__(self) -> str:
+        return str(self.to_dict())
+    
     def __setattr__(self, __name: str, __value) -> None:
         val = super().__setattr__(__name, __value)
         if __name != "_observer_callbacks" and self._observer_callbacks:
@@ -49,7 +52,7 @@ class Person(DatabaseElement):
         self.current_task_ids: list[int] = current_task_ids
 
         # history
-        # [Task("bathroom"), Task("kitchen"), Task("floor"), Task("trash"),  Task("Airing"))]
+        # [Task("bathroom"), Task("kitchen"), Task("floor"), Task("trash"),  Task("airing"))]
         self.weekly_task_history_ids: list[int] = weekly_task_history_ids
 
 
