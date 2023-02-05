@@ -93,7 +93,7 @@ class Telegram():
         """
         while True:
             time.sleep(self._polling_interval_in_seconds)
-            messages = self.latest_telegram_messages()
+            messages = self.latest_messages()
 
             if len(messages) == 0 or messages[0].message_id == self._latest_message_id:
                 continue

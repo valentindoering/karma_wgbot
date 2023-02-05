@@ -142,4 +142,5 @@ config.yml
 data/
 logs/
 wg_karma_bot concept.pdf
+wg_bot_log.json
 
