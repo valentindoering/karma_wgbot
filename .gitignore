@@ -139,8 +139,7 @@ dmypy.json
 cython_debug/
 
 config.yml
-data/
+/data/
 logs/
 wg_karma_bot concept.pdf
-wg_bot_log.json
-
+server_setup.sh
