@@ -21,7 +21,7 @@ if __name__ == "__main__":
     )
     data = Data(
         data_file = config.get('environment_files')['data'], 
-        special_load_file="data/backup_data.json"
+       # special_load_file="data/backup_data.json"
     )
     telegram = Telegram(
         bot_key = config.get('telegram')['bot_key'], 
@@ -42,7 +42,7 @@ if __name__ == "__main__":
             '{reply}'
             """
 
-    # @on_error_send_traceback(log_func=telegram.send)
+    @on_error_send_traceback(log_func=telegram.send)
     def reply(message: TelegramMessage) -> str:
 
         # identify sender
@@ -52,14 +52,14 @@ if __name__ == "__main__":
             return f"Coulnd't identify exactly one person with telegram id {message.user_id}, found:\n[\n{persons_found_str}\n]"
         sender_person = sender_persons[0]
 
-        # return ai.ask(
-        #     add_briefing_to_reply(
-        #         sender_name=sender_person.name,
-        #         message=message.text,
-        #         reply=wgbot.ask(message=message.text, sender_person=sender_person)
-        #     )   
-        # )
-        return wgbot.ask(message=message.text, sender_person=sender_person)
+        return ai.ask(
+            add_briefing_to_reply(
+                sender_name=sender_person.name,
+                message=message.text,
+                reply=wgbot.ask(message=message.text, sender_person=sender_person)
+            )   
+        )
+        # return wgbot.ask(message=message.text, sender_person=sender_person)
     
     # Program Loop
     telegram.poll_reply(callback=reply)
