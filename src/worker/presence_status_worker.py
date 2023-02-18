@@ -33,7 +33,7 @@ class PresenceStatusWorker(Worker):
                 trash_task_id = self.data.find('tasks', lambda t: t.name == 'trash')[0].id
                 person_with_trash_task = self.data.find('persons', lambda p: trash_task_id in p.current_task_ids)[0]
                 person_with_trash_task.current_task_ids.remove(trash_task_id)
-                sender_person.current_task_ids.append(trash_task_id)
+                sender_person.current_task_ids += [trash_task_id]
                 return f"Welcome back home {sender_person.name}! As the first one to return you get to start the trash duty."
 
             return f"Welcome back home {sender_person.name}!"
@@ -45,6 +45,6 @@ class PresenceStatusWorker(Worker):
                 next_present_prson = self._next_present_person(sender_person)
                 if next_present_prson:
                     sender_person.current_task_ids.remove(trash_task_id)
-                    next_present_prson.current_task_ids.append(trash_task_id)
+                    next_present_prson.current_task_ids += [trash_task_id]
                     return f"Have a great trip, {sender_person.name}. {next_present_prson.name} will be responsible for the trash next trash as you are absent now."
             return f"Have a great trip, {sender_person.name}."

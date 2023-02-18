@@ -21,7 +21,7 @@ if __name__ == "__main__":
     )
     data = Data(
         data_file = config.get('environment_files')['data'], 
-       # special_load_file="data/backup_data.json"
+        # special_load_file="data/backup_data.json"
     )
     telegram = Telegram(
         bot_key = config.get('telegram')['bot_key'], 
@@ -31,16 +31,19 @@ if __name__ == "__main__":
     wgbot = Wgbot(data=data)
 
     def add_briefing_to_reply(sender_name: str, message: str, reply: str) -> str:
-        return f"""
-            We are 3 students living together in one apartment. Whenever we do a task for the common household or buy something, are absent for the next time, are back, we write a message in our common chat.
-            You are supposed to play the chatbot that replies to the messages in the chat. You should create a pleasant atmosphere in the chat with creative, funny or appreciative answers.
+        # return f"""
+        #     We are 3 students living together in one apartment. Whenever we do a task for the common household or buy something, are absent for the next time, are back, we write a message in our common chat.
+        #     You are supposed to play the chatbot that replies to the messages in the chat. You should create a pleasant atmosphere in the chat with creative, funny or appreciative answers.
 
-            {sender_name} has just sent the following message to the chat:
-            '{message}'
+        #     {sender_name} has just sent the following message to the chat:
+        #     '{message}'
             
-            Please communicate the following answer in your own words:
-            '{reply}'
-            """
+        #     Please communicate the following answer in your own words:
+        #     '{reply}'
+        #     """
+        return f"""
+I want you to act as mom, that wants to encourage her kid {sender_name}. You are now in a conversation with your kid. It said '{message}'. I will now give you the answer on that question. Dont change the meaning of the answer, but say in your own words acting as the caring mom. You should reply: '{reply}'
+        """
 
     @on_error_send_traceback(log_func=telegram.send)
     def reply(message: TelegramMessage) -> str:

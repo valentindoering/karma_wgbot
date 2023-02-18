@@ -27,11 +27,11 @@ class TaskDoneWorker(Worker):
 
         # task cases ------------------------------------
         if task.name == "airing" or task.name == "peter":
-            sender_person.weekly_task_history_ids.append(task.id)
+            sender_person.weekly_task_history_ids += [task.id]
             return f"Thank you {sender_person.name} for airing the apartment"
 
         elif task.name == "trash":
-            sender_person.weekly_task_history_ids.append(task.id)
+            sender_person.weekly_task_history_ids += [task.id]
             if task.id not in sender_person.current_task_ids:
                 person_assigned = [person for person in self.data.find('persons') if task.id in person.current_task_ids][0]
                 if len(person_assigned) != 1:
@@ -43,7 +43,7 @@ class TaskDoneWorker(Worker):
             next_present_prson = self._next_present_person(sender_person)
             if next_present_prson:
                 sender_person.current_task_ids.remove(task.id)
-                next_present_prson.current_task_ids.append(task.id)
+                next_present_prson.current_task_ids += [task.id]
                 return f"Thank you {sender_person.name} for bringing down the trash. {next_present_prson.name} will be responsible for the next trash."
             return f"Thank you {sender_person.name} for bringing down the trash. As all other people are 'absent', the trash remains your task"
 
@@ -51,12 +51,12 @@ class TaskDoneWorker(Worker):
             if task.name not in ["kitchen", "bathroom", "floor"]:
                 return f"Sorry, task '{task.name}' is not supported yet. Please choose one of the following keywords: {', '.join([task.name for task in self.data.find(attribute_name='tasks')])}\n]"
 
-            sender_person.weekly_task_history_ids.append(task.id)
+            sender_person.weekly_task_history_ids += [task.id]
             if task.id not in sender_person.current_task_ids:
-                person_assigned = [person for person in self.data.find('persons') if task.id in person.current_task_ids][0]
+                person_assigned = [person for person in self.data.find('persons') if task.id in person.current_task_ids]
                 if len(person_assigned) != 1:
                     persons_assigned_str = ',\n'.join([person for person in person_assigned])
                     return f"Couldn't identify exactly one person assigned to {task.name}, found:\n[\n{persons_assigned_str}\n]"
-                return f"{sender_person.name} you are currently not assigned to do the {task.name}, its {person_assigned.name}'s turn this week. But thanks a lot for helping out!"
+                return f"{sender_person.name} you are currently not assigned to do the {task.name}, its {person_assigned[0].name}'s turn this week. But thanks a lot for helping out!"
             task.is_done = True
             return f"Thank you {sender_person.name} for doing the {task.name}"

@@ -45,10 +45,10 @@ class WeeklyRotationWorker(Worker):
             if len(next_persons) != 1:
                 return "Error: next person not found"
             next_person = next_persons[0]
-            task_assignments.append((next_person, current_weekly_tasks))
+            task_assignments += [(next_person, current_weekly_tasks)]
         for person, tasks in task_assignments:
             for task in tasks:
-                person.current_task_ids.append(task.id)
+                person.current_task_ids += [task.id]
 
         # reset weekly task history
         for person in persons:
